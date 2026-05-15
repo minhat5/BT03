@@ -1,16 +1,13 @@
-const Category = require('../models/category');
+const categoryService = require('../services/categoryService');
 
 // Get all categories
 const getCategories = async (req, res) => {
     try {
-        const categories = await Category.findAll({
-            attributes: ['id', 'name', 'description', 'image'],
-            order: [['name', 'ASC']]
-        });
+        const result = await categoryService.getCategories();
 
         return res.status(200).json({
             success: true,
-            data: categories
+            data: result.data
         });
     } catch (error) {
         console.log('Error in getCategories:', error);
@@ -23,15 +20,15 @@ const getCategoryById = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const category = await Category.findByPk(id);
+        const result = await categoryService.getCategoryById(id);
 
-        if (!category) {
+        if (!result) {
             return res.status(404).json({ message: 'Category not found' });
         }
 
         return res.status(200).json({
             success: true,
-            data: category
+            data: result.data
         });
     } catch (error) {
         console.log('Error in getCategoryById:', error);
