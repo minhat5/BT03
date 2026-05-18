@@ -29,6 +29,22 @@ const resetPasswordWithOtpApi = (email, otp, newPassword) => {
     return axios.post(URL_API, data);
 };
 
+const getBestSellingProductsApi = (limit = 10) => {
+    const URL_API = `/v1/api/products/best-selling?limit=${limit}`;
+    return axios.get(URL_API);
+};
+
+const getMostViewedProductsApi = (limit = 10) => {
+    const URL_API = `/v1/api/products/most-viewed?limit=${limit}`;
+    return axios.get(URL_API);
+};
+
+const getProductsByCategoryApi = (categoryId, page = 1, limit = 12) => {
+    const URL_API = `/v1/api/products/category/${categoryId}?page=${page}&limit=${limit}`;
+    return axios.get(URL_API);
+};
+
 export {
-    createUserApi, loginApi, getUserApi, sendOtpApi, resetPasswordWithOtpApi
+    createUserApi, loginApi, getUserApi, sendOtpApi, resetPasswordWithOtpApi,
+    getBestSellingProductsApi, getMostViewedProductsApi, getProductsByCategoryApi
 };

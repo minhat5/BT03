@@ -11,6 +11,7 @@ import LoginPage from './pages/login.jsx';
 import ForgotPasswordPage from './pages/forgotPassword.jsx';
 import ProductDetail from './pages/product/productDetail.jsx';
 import SearchFilter from './pages/product/searchFilter.jsx';
+import CategoryPage from './pages/product/categoryPage.jsx';
 import { AuthWrapper } from './components/context/auth.context.jsx';
 
 const router = createBrowserRouter([
@@ -21,7 +22,8 @@ const router = createBrowserRouter([
             { index: true, element: <HomePage /> },
             { path: "user", element: <UserPage /> },
             { path: "product/:id", element: <ProductDetail /> },
-            { path: "search", element: <SearchFilter /> }
+            { path: "search", element: <SearchFilter /> },
+            { path: "category/:categoryId", element: <CategoryPage /> }
         ]
     },
     { path: "register", element: <RegisterPage /> },

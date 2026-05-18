@@ -110,8 +110,60 @@ const getFilteredProducts = async (filters) => {
     };
 };
 
+// Get top 10 best-selling products
+const getBestSellingProducts = async (limit = 10) => {
+    const products = await Product.findAll({
+        order: [['sold', 'DESC']],
+        limit: parseInt(limit),
+        attributes: { exclude: ['description'] },
+        include: [{ model: Category, as: 'category', attributes: ['id', 'name'] }]
+    });
+
+    return {
+        data: products
+    };
+};
+
+// Get top 10 most viewed products
+const getMostViewedProducts = async (limit = 10) => {
+    const products = await Product.findAll({
+        order: [['rating', 'DESC'], ['reviewCount', 'DESC']],
+        limit: parseInt(limit),
+        attributes: { exclude: ['description'] },
+        include: [{ model: Category, as: 'category', attributes: ['id', 'name'] }]
+    });
+
+    return {
+        data: products
+    };
+};
+
+// Get products by category with pagination
+const getProductsByCategory = async (categoryId, page = 1, limit = 12) => {
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Product.findAndCountAll({
+        where: { categoryId: categoryId },
+        include: [{ model: Category, as: 'category', attributes: ['id', 'name'] }],
+        order: [['createdAt', 'DESC']],
+        limit: parseInt(limit),
+        offset: parseInt(offset),
+        attributes: { exclude: ['description'] }
+    });
+
+    return {
+        data: rows,
+        total: count,
+        page: parseInt(page),
+        pages: Math.ceil(count / limit)
+    };
+};
+
 module.exports = {
     getProducts,
     getProductById,
-    getFilteredProducts
+    getFilteredProducts,
+    getBestSellingProducts,
+    getMostViewedProducts,
+    getProductsByCategory
 };
