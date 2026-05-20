@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Spin, InputNumber, Button, message } from 'antd';
 import { ShoppingCartOutlined, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
@@ -10,9 +10,13 @@ import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import axios from '../../util/axios.customize';
 import ProductCard from '../../components/product/ProductCard';
+import { CartContext } from '../../components/context/cart.context';
+import { AuthContext } from '../../components/context/auth.context';
 
 const ProductDetail = () => {
     const { id } = useParams();
+    const { addToCart } = useContext(CartContext);
+    const { auth } = useContext(AuthContext);
     const [product, setProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -39,9 +43,25 @@ const ProductDetail = () => {
         fetchProduct();
     }, [id]);
 
-    const handleAddToCart = () => {
-        message.success(`Đã thêm ${quantity} sản phẩm vào giỏ hàng`);
-        // TODO: Implement cart functionality
+    const handleAddToCart = async () => {
+        // Kiểm tra đã đăng nhập chưa
+        if (!auth?.isAuthenticated) {
+            message.warning('Vui lòng đăng nhập để thêm vào giỏ hàng');
+            return;
+        }
+
+        try {
+            const result = await addToCart(product.id, quantity);
+            if (result.success) {
+                message.success(`Đã thêm ${quantity} sản phẩm vào giỏ hàng`);
+                setQuantity(1); // Reset quantity
+            } else {
+                message.error(result.error || 'Không thể thêm vào giỏ hàng');
+            }
+        } catch (error) {
+            message.error('Lỗi khi thêm vào giỏ hàng');
+            console.error('Error:', error);
+        }
     };
 
     if (loading) {

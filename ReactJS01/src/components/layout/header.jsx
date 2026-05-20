@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { UsergroupAddOutlined, HomeOutlined, SettingOutlined, ShoppingOutlined, SearchOutlined } from '@ant-design/icons';
+import { UsergroupAddOutlined, HomeOutlined, SettingOutlined, ShoppingOutlined, SearchOutlined, ShoppingCartOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Menu, Input, Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth.context';
@@ -42,6 +42,16 @@ const Header = () => {
             key: 'shop',
             icon: <ShoppingOutlined />,
         },
+        {
+            label: <Link to={"/cart"}>Giỏ hàng</Link>,
+            key: 'cart',
+            icon: <ShoppingCartOutlined />,
+        },
+        ...(auth.isAuthenticated ? [{
+            label: <Link to={"/orders"}>Đơn hàng</Link>,
+            key: 'orders',
+            icon: <FileTextOutlined />,
+        }] : []),
         ...(auth.isAuthenticated ? [{
             label: <Link to={"/user"}>Quản lý</Link>,
             key: 'user',

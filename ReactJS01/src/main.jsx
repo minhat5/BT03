@@ -12,6 +12,10 @@ import ForgotPasswordPage from './pages/forgotPassword.jsx';
 import ProductDetail from './pages/product/productDetail.jsx';
 import SearchFilter from './pages/product/searchFilter.jsx';
 import CategoryPage from './pages/product/categoryPage.jsx';
+import CartPage from './pages/cartPage.jsx';
+import CheckoutPage from './pages/checkoutPage.jsx';
+import OrdersPage from './pages/ordersPage.jsx';
+import OrderDetail from './pages/orderDetail.jsx';
 import { AuthWrapper } from './components/context/auth.context.jsx';
 
 const router = createBrowserRouter([
@@ -23,7 +27,11 @@ const router = createBrowserRouter([
             { path: "user", element: <UserPage /> },
             { path: "product/:id", element: <ProductDetail /> },
             { path: "search", element: <SearchFilter /> },
-            { path: "category/:categoryId", element: <CategoryPage /> }
+            { path: "category/:categoryId", element: <CategoryPage /> },
+            { path: "cart", element: <CartPage /> },
+            { path: "checkout", element: <CheckoutPage /> },
+            { path: "orders", element: <OrdersPage /> },
+            { path: "orders/:orderId", element: <OrderDetail /> }
         ]
     },
     { path: "register", element: <RegisterPage /> },
