@@ -44,7 +44,65 @@ const getProductsByCategoryApi = (categoryId, page = 1, limit = 12) => {
     return axios.get(URL_API);
 };
 
+// Cart APIs
+const getCartApi = () => {
+    const URL_API = "/v1/api/cart";
+    return axios.get(URL_API);
+};
+
+const addToCartApi = (productId, quantity) => {
+    const URL_API = "/v1/api/cart";
+    const data = { productId, quantity };
+    return axios.post(URL_API, data);
+};
+
+const updateCartItemApi = (cartItemId, quantity) => {
+    const URL_API = `/v1/api/cart/${cartItemId}`;
+    const data = { quantity };
+    return axios.put(URL_API, data);
+};
+
+const removeFromCartApi = (cartItemId) => {
+    const URL_API = `/v1/api/cart/${cartItemId}`;
+    return axios.delete(URL_API);
+};
+
+const clearCartApi = () => {
+    const URL_API = "/v1/api/cart-clear";
+    return axios.delete(URL_API);
+};
+
+// Order APIs
+const createOrderApi = (shippingAddress, recipientName, recipientPhone, notes = '') => {
+    const URL_API = "/v1/api/orders";
+    const data = { shippingAddress, recipientName, recipientPhone, notes };
+    return axios.post(URL_API, data);
+};
+
+const getOrdersApi = (limit = 10, offset = 0) => {
+    const URL_API = `/v1/api/orders?limit=${limit}&offset=${offset}`;
+    return axios.get(URL_API);
+};
+
+const getOrderDetailApi = (orderId) => {
+    const URL_API = `/v1/api/orders/${orderId}`;
+    return axios.get(URL_API);
+};
+
+const getOrderStatusHistoryApi = (orderId) => {
+    const URL_API = `/v1/api/orders/${orderId}/status-history`;
+    return axios.get(URL_API);
+};
+
+const requestOrderCancellationApi = (orderId, reason) => {
+    const URL_API = `/v1/api/orders/${orderId}/cancel`;
+    const data = { reason };
+    return axios.post(URL_API, data);
+};
+
 export {
     createUserApi, loginApi, getUserApi, sendOtpApi, resetPasswordWithOtpApi,
-    getBestSellingProductsApi, getMostViewedProductsApi, getProductsByCategoryApi
+    getBestSellingProductsApi, getMostViewedProductsApi, getProductsByCategoryApi,
+    getCartApi, addToCartApi, updateCartItemApi, removeFromCartApi, clearCartApi,
+    createOrderApi, getOrdersApi, getOrderDetailApi, getOrderStatusHistoryApi, requestOrderCancellationApi
 };

@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import { CartContextProvider } from './cart.context';
 
 export const AuthContext = createContext({
     isAuthenticated: false,
@@ -23,7 +24,9 @@ export const AuthWrapper = (props) => {
         <AuthContext.Provider value={{
             auth, setAuth, appLoading, setAppLoading
         }}>
-            {props.children}
+            <CartContextProvider>
+                {props.children}
+            </CartContextProvider>
         </AuthContext.Provider>
     );
 };
