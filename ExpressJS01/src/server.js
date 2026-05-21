@@ -7,6 +7,13 @@ const configViewEngine = require('./config/viewEngine');
 const { connection } = require('./config/database');
 const { getHomepage } = require('./controllers/homeController');
 
+// Import all models to ensure associations are registered
+require('./models/product');
+require('./models/category');
+require('./models/user');
+require('./models/cart');
+require('./models/order');
+
 const app = express();
 const port = process.env.PORT || 8888;
 
