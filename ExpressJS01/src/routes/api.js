@@ -2,6 +2,8 @@ const express = require('express');
 const { createUser, handleLogin, getUser, getAccount, handleSendOtp, handleVerifyOtpAndReset } = require('../controllers/userController');
 const { getProducts, getProductById, getFilteredProducts, getBestSellingProducts, getMostViewedProducts, getProductsByCategory } = require('../controllers/productController');
 const { getCategories, getCategoryById } = require('../controllers/categoryController');
+const { getCartController, addToCartController, updateCartItemController, removeFromCartController, clearCartController } = require('../controllers/cartController');
+const { createOrderController, getOrdersController, getOrderByIdController, getOrderStatusHistoryController, requestCancellationController } = require('../controllers/orderController');
 const auth = require('../middleware/auth');
 const delay = require('../middleware/delay');
 
@@ -30,5 +32,19 @@ routerAPI.post(`/forgot-password/send-otp`, handleSendOtp);
 routerAPI.post(`/forgot-password/reset`, handleVerifyOtpAndReset);
 routerAPI.get("/user", getUser);
 routerAPI.get("/account", delay, getAccount);
+
+// Cart routes
+routerAPI.get("/cart", getCartController);
+routerAPI.post("/cart", addToCartController);
+routerAPI.put("/cart/:cartItemId", updateCartItemController);
+routerAPI.delete("/cart/:cartItemId", removeFromCartController);
+routerAPI.delete("/cart-clear", clearCartController);
+
+// Order routes
+routerAPI.post("/orders", createOrderController);
+routerAPI.get("/orders", getOrdersController);
+routerAPI.get("/orders/:orderId", getOrderByIdController);
+routerAPI.get("/orders/:orderId/status-history", getOrderStatusHistoryController);
+routerAPI.post("/orders/:orderId/cancel", requestCancellationController);
 
 module.exports = routerAPI;
